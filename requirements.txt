@@ -1,0 +1,9 @@
+crewai[tools,anthropic]
+fastapi
+uvicorn
+python-multipart
+python-pptx
+google-generativeai
+gitpython
+pydantic
+python-dotenv
