@@ -4,42 +4,44 @@ export default {
   theme: {
     extend: {
       colors: {
-        court: {
-          bg: "#07070e",
-          panel: "#0e0e1a",
-          surface: "#141425",
-          border: "#1e1e35",
-          gold: "#c9a84c",
-          "gold-dim": "#8a7333",
-          silver: "#8a8aa0",
-          red: "#e74c3c",
-          green: "#2ecc71",
-          blue: "#3498db",
+        pipe: {
+          bg: "#ffffff",
+          surface: "#f8f8fa",
+          panel: "#ffffff",
+          border: "#e5e7eb",
+          "border-light": "#d1d5db",
+
+          primary: "#f97316",
+          "primary-bright": "#fb923c",
+          "primary-dim": "#ea580c",
+          "primary-wash": "#fff7ed",
+
+          sky: "#0ea5e9",
+          "sky-dim": "#0284c7",
+
+          green: "#22c55e",
+          "green-dim": "#16a34a",
+          "green-wash": "#f0fdf4",
+
+          amber: "#f59e0b",
+          red: "#ef4444",
+          "red-wash": "#fef2f2",
+
+          text: "#111827",
+          secondary: "#374151",
+          muted: "#6b7280",
+          dim: "#9ca3af",
+          ghost: "#f3f4f6",
         },
       },
       fontFamily: {
-        serif: ["Playfair Display", "Georgia", "serif"],
-        sans: ["Inter", "system-ui", "sans-serif"],
+        sans: ["Inter", "system-ui", "-apple-system", "sans-serif"],
+        mono: ["JetBrains Mono", "Fira Code", "monospace"],
       },
-      animation: {
-        "pulse-gold": "pulse-gold 2s ease-in-out infinite",
-        "fade-up": "fade-up 0.6s ease-out",
-        gavel: "gavel 0.4s ease-out",
-      },
-      keyframes: {
-        "pulse-gold": {
-          "0%, 100%": { opacity: "0.4" },
-          "50%": { opacity: "1" },
-        },
-        "fade-up": {
-          "0%": { opacity: "0", transform: "translateY(20px)" },
-          "100%": { opacity: "1", transform: "translateY(0)" },
-        },
-        gavel: {
-          "0%": { transform: "rotate(-30deg) scale(1.2)" },
-          "60%": { transform: "rotate(5deg) scale(1)" },
-          "100%": { transform: "rotate(0deg) scale(1)" },
-        },
+      boxShadow: {
+        "card": "0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04)",
+        "card-hover": "0 4px 12px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04)",
+        "glow-orange": "0 0 20px rgba(249,115,22,0.15), 0 0 60px rgba(249,115,22,0.05)",
       },
     },
   },

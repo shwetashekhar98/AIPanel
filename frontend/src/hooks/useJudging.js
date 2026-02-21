@@ -1,12 +1,12 @@
 import { useState, useCallback, useRef } from "react";
 
-const AGENT_ORDER = ["github", "ppt", "voice", "video", "orchestrator"];
+const AGENT_ORDER = ["github", "ppt", "video", "orchestrator"];
 
 export default function useJudging() {
   const [phase, setPhase] = useState("idle"); // idle | submitting | streaming | verdict | error
   const [jobId, setJobId] = useState(null);
   const [events, setEvents] = useState([]);
-  const [activeAgent, setActiveAgent] = useState(null);
+  const [activeAgents, setActiveAgents] = useState(new Set());
   const [completedAgents, setCompletedAgents] = useState({});
   const [result, setResult] = useState(null);
   const [error, setError] = useState(null);
@@ -15,7 +15,7 @@ export default function useJudging() {
   const submit = useCallback(async (formData) => {
     setPhase("submitting");
     setEvents([]);
-    setActiveAgent(null);
+    setActiveAgents(new Set());
     setCompletedAgents({});
     setResult(null);
     setError(null);
@@ -44,10 +44,15 @@ export default function useJudging() {
 
           switch (parsed.type) {
             case "agent_started":
-              setActiveAgent(parsed.agent);
+              setActiveAgents((prev) => new Set([...prev, parsed.agent]));
               break;
 
             case "agent_complete":
+              setActiveAgents((prev) => {
+                const next = new Set(prev);
+                next.delete(parsed.agent);
+                return next;
+              });
               setCompletedAgents((prev) => ({
                 ...prev,
                 [parsed.agent]: parsed.summary || "Analysis complete",
@@ -72,11 +77,8 @@ export default function useJudging() {
       };
 
       es.onerror = () => {
-        if (phase !== "verdict") {
-          // SSE closed — try fetching final result
-          es.close();
-          fetchResult(data.job_id);
-        }
+        es.close();
+        fetchResult(data.job_id);
       };
     } catch (err) {
       setError(err.message);
@@ -104,7 +106,7 @@ export default function useJudging() {
     setPhase("idle");
     setJobId(null);
     setEvents([]);
-    setActiveAgent(null);
+    setActiveAgents(new Set());
     setCompletedAgents({});
     setResult(null);
     setError(null);
@@ -114,7 +116,7 @@ export default function useJudging() {
     phase,
     jobId,
     events,
-    activeAgent,
+    activeAgents,
     completedAgents,
     result,
     error,
